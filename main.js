@@ -13,7 +13,7 @@ $(document).ready(() => {
     "method": "GET",
     "headers": {}
   }
-  
+
   const imgBaseUrl = `http://image.tmdb.org/t/p/w300/`
   const mesSeries = JSON.parse(localStorage.getItem('mes-series')) || [];
 
@@ -138,7 +138,8 @@ $(document).ready(() => {
           episodes: response.number_of_episodes,
           seasons: response.number_of_seasons,
           id: response.id,
-          poster: response.poster_path
+          poster: response.poster_path,
+          overview: response.overview
         });
         localStorage.setItem('mes-series', JSON.stringify(mesSeries));
       } else {
@@ -157,7 +158,8 @@ $(document).ready(() => {
             episodes: response.number_of_episodes,
             seasons: response.number_of_seasons,
             id: response.id,
-            poster: response.poster_path
+            poster: response.poster_path,
+            overview: response.overview
           });
 
           localStorage.setItem('mes-series', JSON.stringify(mesSeries));
@@ -192,6 +194,7 @@ $(document).ready(() => {
         let img = document.createElement('img');
         
         $(img).attr('src', `${imgBaseUrl}${mesSeries[i].poster}`);
+        $(img).attr('data-id', `${mesSeries[i].id}`);
 
         $(li).append($(img));
 
@@ -200,6 +203,75 @@ $(document).ready(() => {
     }
     carouselCollection();
   }
+
+  // TODO faire le détail d'une seule série !
+  
+  // fonction qui va m'afficher le détail d'une série enregistrée dans ma collection
+  function detailsFromCollection() {
+    $(document).on('click', 'div.mes-series ul li img', (e) => {
+      $('div.collection-details').addClass('open');
+
+      let id = e.target;
+      id = $(id).attr('data-id');
+      id = parseInt(id);
+      let tab = [];
+      for (let i = 0; i < mesSeries.length; i += 1) {
+        tab.push(parseInt(mesSeries[i].id));
+      }
+      let test = tab.indexOf(id);
+      detailCollectionFromStorage(test);
+      closeDetailCollection();
+    });
+  }
+  detailsFromCollection();
+
+  function detailCollectionFromStorage(test) {
+    $('div.collection-details').html(`
+      <div class="close">
+      <svg viewBox="0 0 24 24">
+        <path fill="#fff" 
+            d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" 
+        />
+      </svg>
+    </div>
+    <div class="wrapper-left">
+
+    </div>
+    <div class="wrapper wrapper-right">
+      <p>${mesSeries[test].nom}</p>
+      <div class="synopsys">
+        <p>Synopsys : </p>
+        <p>${mesSeries[test].overview}</p>
+      </div>
+      <div class="episodes">
+        <p>
+          <span>Épisodes vus : <span class="nombre-vu">32</span> sur : ${mesSeries[test].episodes}</span>
+          <span class="plus">
+              <svg viewBox="0 0 24 24">
+                <path fill="#fff" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+              </svg>
+            </span>
+            <span class="minus">
+              <svg viewBox="0 0 24 24">
+                <path fill="#fff" d="M19,13H5V11H19V13Z" />
+              </svg>
+          </span>
+          <div class="progress-bar">
+            <div></div>
+          </div>
+        </p>
+      </div>
+    </div>
+    `);
+  }
+
+  function closeDetailCollection() {
+    $('div.close').on('click', () => {
+      $('div.collection-details').removeClass('open');
+    });
+  }
+
+
 
   // fonction pour créer le carousel avec slick-slide
   // que j'appelle dans la fonction creerElementsAuClick();
@@ -222,27 +294,3 @@ $(document).ready(() => {
 
   window.onload = getValuesFromStorage();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* <span class="plus">
-<svg viewBox="0 0 24 24">
-<path fill="#fff" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-</svg>
-</span>
-<span class="minus">
-<svg viewBox="0 0 24 24">
-<path fill="#fff" d="M19,13H5V11H19V13Z" />
-</svg>
-</span> */}

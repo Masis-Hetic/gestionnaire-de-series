@@ -7,6 +7,16 @@
 *:after{
     box-sizing: border-box;
 }
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
 ul{
     list-style-type: none;
 }
@@ -74,7 +84,104 @@ div.mes-series{
     left: 50%;
     transform: translateX(-50%);
 }
+/* detail d'une série depuis la collection */
 
+div.collection-details{
+    width: 100vw;
+    height: 60vh;
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: #8b98a4;
+    font-family: sans-serif;
+    color: #fff;
+    font-size: 18px;
+    transition: 0.5s;
+}
+div.collection-details.open{
+    top: 0;
+}
+div.collection-details div.wrapper-left,
+div.collection-details div.wrapper-right{
+    width: 50%;
+    height: 100%;
+    padding: 10px 30px;
+}
+div.collection-details div.wrapper-right{
+    float: right;
+}
+div.collection-details div.wrapper-left{
+    float: left;
+}
+div.collection-details div.wrapper>p{
+    text-align: center;
+    margin: 20px auto;
+    font-size: 22px;
+}
+div.collection-details div.wrapper div.synopsys{
+    text-align: center;
+    width: 80%;
+    margin: 80px auto;
+    line-height: 1.5;
+    max-height: 30%;
+    overflow-y: scroll;
+}
+div.collection-details div.wrapper div.synopsys p:nth-of-type(1){
+    margin-bottom: 20px;
+    font-size: 19px;
+    text-decoration: underline;
+}
+div.collection-details div.wrapper div.episodes{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+div.collection-details span.plus,
+div.collection-details span.minus{
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.4);
+    vertical-align: middle;
+    cursor: pointer;
+}
+div.collection-details span.plus{
+    margin: 0 20px;
+}
+div.collection-details span.plus svg,
+div.collection-details span.minus svg{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+div.collection-details span.nombre-vu{
+    margin: 0 10px;;
+}
+div.collection-details div.progress-bar{
+    width: 50%;
+    height: 25px;
+    margin: 30px auto;
+    border-radius: 5px;
+    background: #fff;
+}
+div.collection-details div.progress-bar div{
+    width: 50%;
+    height: 100%;
+    background: blue;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+div.collection-details div.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #273345;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
 
 /* carousel */
 .slick-slide img{
@@ -178,20 +285,3 @@ div.affiche-details button{
     font-size: 16px;
     cursor: pointer;
 }
-
-
-
-/* div.affiche-details span.plus,
-div.affiche-details span.minus{
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.4);
-    vertical-align: middle;
-}
-div.affiche-details span.plus svg,
-div.affiche-details span.minus svg{
-    display: block;
-    width: 100%;
-    height: 100%;
-} */
