@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  
   var settings = {
     "async": true,
     "crossDomain": true,
@@ -12,7 +13,9 @@ $(document).ready(() => {
     "method": "GET",
     "headers": {}
   }
+  
   const imgBaseUrl = `http://image.tmdb.org/t/p/w300/`
+  const mesSeries = JSON.parse(localStorage.getItem('mes-series')) || [];
 
   $('form').on('submit', (e) => {
     e.preventDefault();
@@ -24,6 +27,7 @@ $(document).ready(() => {
       response = response.results;
       creerElementsAuClick(response);
     });
+    $('input[type="search"]').val('');
   });
 
   // fonction pour créer mes éléments
@@ -60,10 +64,10 @@ $(document).ready(() => {
       $(img).attr('data-id', response[i].id);
 
       $(li).append($(img));
-      $('ul.slider').append($(li));
+      $('div.resultat-api ul.slider').append($(li));
     }
-    carousel();
     recupererId();
+    carousel();
   }
 
   // fonction pour récupérer l'id du film
@@ -71,6 +75,7 @@ $(document).ready(() => {
   function recupererId() {
     let clickSurImage = $('div.resultat-api ul li img');
     clickSurImage.on('click', (e) => {
+      $('div.affiche-details').html('');
       let monId = e.target;
       monId = $(monId).attr('data-id');
 
@@ -92,13 +97,18 @@ $(document).ready(() => {
     });
   }
 
-
   function creerElementsPourDetails(response) {
-    console.log('ma réponse détail est : ', response);
     
     let div = document.createElement('div');
 
     $(div).html(`
+      <div class="close">
+        <svg viewBox="0 0 24 24">
+          <path fill="#fff" 
+              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" 
+          />
+        </svg>
+      </div>
       <p>
         <img src="${imgBaseUrl}${response.poster_path}">
       </p>
@@ -107,25 +117,132 @@ $(document).ready(() => {
       <p>${response.overview}</p>
       <div class="wrapper">
         <p>Nombre de saisons : ${response.number_of_seasons}</p>
-        <p>Nombre d'épisodes : <span class="nb-episodes">${response.number_of_episodes}</span> <span>+</span><span>-</span></p>
+        <p>Nombre d'épisodes : 
+          <span class="nb-episodes">${response.number_of_episodes}</span>
+        </p>
+        <button class="add-to-collection">Add to collection</button>
       </div>
     `);
 
     $('div.affiche-details').append($(div));
 
-    $('button.add-to-collection').on('click', () => {
-      $('div.affiche-details').addClass('close');
-    });
+    addToCollection(response);
   }
-  
-  // fonction pour créer le carousel avec slick-slide
-  // que j'appelle dans la fonction creerElementsAuClick();
-  function carousel() {
-    $('.multiple-items').slick({
-      infinite: true,
-      slidesToShow: 3,
-      slidesToScroll: 3
+
+  function addToCollection(response) {
+    $('button.add-to-collection').on('click', () => {
+
+      if (mesSeries.length === 0) {
+        mesSeries.push({
+          nom: response.name,
+          episodes: response.number_of_episodes,
+          seasons: response.number_of_seasons,
+          id: response.id,
+          poster: response.poster_path
+        });
+        localStorage.setItem('mes-series', JSON.stringify(mesSeries));
+      } else {
+        let tabStorage = JSON.parse(localStorage.getItem('mes-series'));
+
+        var test = [];
+        for (let i = 0; i < tabStorage.length; i += 1) {
+          test.push(tabStorage[i].id);
+        }
+
+        let testIfId = test.indexOf(response.id) === -1;
+
+        if (testIfId){
+          mesSeries.push({
+            nom: response.name,
+            episodes: response.number_of_episodes,
+            seasons: response.number_of_seasons,
+            id: response.id,
+            poster: response.poster_path
+          });
+
+          localStorage.setItem('mes-series', JSON.stringify(mesSeries));
+        }
+      }
+
+      $('div.resultat-api').html('');
+      closeDetails();
+      getValuesFromStorage();
     });
   }
 
+  // button pour fermer le détail
+  function closeDetails() {
+    $('.affiche-details').addClass('close');
+  }
+  $(document).on('click', 'div.close', () => {closeDetails();});
+
+  // fonction pour afficher les séries depuis le localStorage
+  // je l'utilise lorsque je charge la page pour la première fois,
+  // et je l'utilise lorsque je met à jour le storage
+  function getValuesFromStorage() {
+    let displayResultats = $('div.mes-series');
+    displayResultats.html('');
+    let ul = document.createElement('ul');
+    $(ul).attr('class', 'multiple-items slider test');
+    displayResultats.append($(ul));
+
+    if (mesSeries.length > 0) {
+      for (let i = 0; i < mesSeries.length; i += 1) {
+        let li = document.createElement('li');
+        let img = document.createElement('img');
+        
+        $(img).attr('src', `${imgBaseUrl}${mesSeries[i].poster}`);
+
+        $(li).append($(img));
+
+        $('div.mes-series .slider').append($(li));
+      }  
+    }
+    carouselCollection();
+  }
+
+  // fonction pour créer le carousel avec slick-slide
+  // que j'appelle dans la fonction creerElementsAuClick();
+  function carousel() {
+    $('.resultat-api .multiple-items').slick({
+      infinite: true,
+      slidesToShow: 5,
+      slidesToScroll: 5
+    });
+  }
+
+  // ici c'est le carousel de ma collection
+  function carouselCollection() {
+    $('.mes-series .slider').slick({
+      infinite: true,
+      slidesToShow: 5,
+      slidesToScroll: 5
+    });
+  }
+
+  window.onload = getValuesFromStorage();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <span class="plus">
+<svg viewBox="0 0 24 24">
+<path fill="#fff" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+</svg>
+</span>
+<span class="minus">
+<svg viewBox="0 0 24 24">
+<path fill="#fff" d="M19,13H5V11H19V13Z" />
+</svg>
+</span> */}

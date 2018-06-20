@@ -212,5 +212,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# ignore test.html
+test.html
 
 # End of https://www.gitignore.io/api/linux,macos,windows,jetbrains,sublimetext,jetbrains+all,visualstudiocode

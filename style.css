@@ -13,6 +13,8 @@ ul{
 
 body{
     background: #273345;
+    height: 100vh;
+    overflow: hidden;
 }
 header{
     height: 100px;
@@ -64,14 +66,24 @@ div.resultat-api ul li{
     text-align: center;
 }
 
+/* mes series collections */
+div.mes-series{
+    position: absolute;
+    bottom: 30px;
+    width: 95vw;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
 /* carousel */
 .slick-slide img{
     display: block;
     margin: 0 auto;
-    max-width: 300px;
-    height: 450px;
+    width: 185px;
     cursor: pointer;
 }
+
 
 
 /* div.affiche-details */
@@ -100,9 +112,33 @@ div.affiche-details div{
     color: #fff;
     font-family: sans-serif;
 }
+div.affiche-details div.close{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: #273345;
+    cursor: pointer;
+}
+div.close svg{
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 div.affiche-details div img{
     display: block;
     width: 300px;
+
+}
+div.affiche-details div>span{
+    display: table;
+    margin: 0 auto;
 }
 div.affiche-details div:nth-of-type(1) p:nth-of-type(1){
     display: table;
@@ -120,11 +156,14 @@ div.affiche-details div:nth-of-type(1) p:nth-of-type(3){
     line-height: 2;
 }
 div.affiche-details div.wrapper{
-    width: 80%;
-    margin: 0 auto;
+    width: 20%;
+    margin: 20px auto 0;
 }
 div.affiche-details div:nth-of-type(1) div.wrapper p{
     font-size: 18px;
+    text-align: center;
+    display: table;
+    margin: 10px auto;
 }
 div.affiche-details div:nth-of-type(1) div.wrapper p span:nth-of-type(1){
     margin: 0 20px;
@@ -139,3 +178,20 @@ div.affiche-details button{
     font-size: 16px;
     cursor: pointer;
 }
+
+
+
+/* div.affiche-details span.plus,
+div.affiche-details span.minus{
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.4);
+    vertical-align: middle;
+}
+div.affiche-details span.plus svg,
+div.affiche-details span.minus svg{
+    display: block;
+    width: 100%;
+    height: 100%;
+} */
