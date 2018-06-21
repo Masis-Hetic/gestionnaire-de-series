@@ -139,7 +139,8 @@ $(document).ready(() => {
           seasons: response.number_of_seasons,
           id: response.id,
           poster: response.poster_path,
-          overview: response.overview
+          overview: response.overview,
+          nbepisodesvu: ''
         });
         localStorage.setItem('mes-series', JSON.stringify(mesSeries));
       } else {
@@ -159,7 +160,8 @@ $(document).ready(() => {
             seasons: response.number_of_seasons,
             id: response.id,
             poster: response.poster_path,
-            overview: response.overview
+            overview: response.overview,
+            nbepisodesvu: ''
           });
 
           localStorage.setItem('mes-series', JSON.stringify(mesSeries));
@@ -215,17 +217,19 @@ $(document).ready(() => {
       id = $(id).attr('data-id');
       id = parseInt(id);
       let tab = [];
+
       for (let i = 0; i < mesSeries.length; i += 1) {
         tab.push(parseInt(mesSeries[i].id));
       }
-      let test = tab.indexOf(id);
-      detailCollectionFromStorage(test);
+
+      let idFromStorage = tab.indexOf(id);
+      detailCollectionFromStorage(idFromStorage);
       closeDetailCollection();
     });
   }
   detailsFromCollection();
 
-  function detailCollectionFromStorage(test) {
+  function detailCollectionFromStorage(idFromStorage) {
     $('div.collection-details').html(`
       <div class="close">
       <svg viewBox="0 0 24 24">
@@ -235,25 +239,25 @@ $(document).ready(() => {
       </svg>
     </div>
     <div class="wrapper-left">
-
+      <div><img src="${imgBaseUrl}${mesSeries[idFromStorage].poster}" ></div>
     </div>
     <div class="wrapper wrapper-right">
-      <p>${mesSeries[test].nom}</p>
+      <p>${mesSeries[idFromStorage].nom}</p>
       <div class="synopsys">
         <p>Synopsys : </p>
-        <p>${mesSeries[test].overview}</p>
+        <p>${mesSeries[idFromStorage].overview}</p>
       </div>
       <div class="episodes">
         <p>
-          <span>Épisodes vus : <span class="nombre-vu">32</span> sur : ${mesSeries[test].episodes}</span>
+          <span>Épisodes vus : <span class="nombre-vu">0</span> sur : ${mesSeries[idFromStorage].episodes}</span>
           <span class="plus">
-              <svg viewBox="0 0 24 24">
-                <path fill="#fff" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+              <svg viewBox="0 0 24 24" data-id="${mesSeries[idFromStorage].id}">
+                <path fill="#fff" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" data-id="${mesSeries[idFromStorage].id}"/>
               </svg>
             </span>
             <span class="minus">
-              <svg viewBox="0 0 24 24">
-                <path fill="#fff" d="M19,13H5V11H19V13Z" />
+              <svg viewBox="0 0 24 24" data-id="${mesSeries[idFromStorage].id}">
+                <path fill="#fff" d="M19,13H5V11H19V13Z" data-id="${mesSeries[idFromStorage].id}"/>
               </svg>
           </span>
           <div class="progress-bar">
@@ -263,6 +267,27 @@ $(document).ready(() => {
       </div>
     </div>
     `);
+  }
+
+  function episodePlus() {
+    $(document).on('click', 'span.plus svg', (e) => {
+      getIdOnClick(e);
+    });
+  }
+  episodePlus();
+
+  function getIdOnClick(e) {
+    let id = e.target;
+    id = $(id).attr('data-id');
+    id = parseInt(id);
+    let tab = [];
+
+    for (let i = 0; i < mesSeries.length; i += 1) {
+      tab.push(parseInt(mesSeries[i].id));
+    }
+
+    let indexFromStorage = tab.indexOf(id);
+    console.log('console log de id : ', indexFromStorage);
   }
 
   function closeDetailCollection() {
