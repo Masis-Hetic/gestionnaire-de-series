@@ -150,9 +150,8 @@ $(document).ready(() => {
         for (let i = 0; i < tabStorage.length; i += 1) {
           test.push(tabStorage[i].id);
         }
-        console.log('test id is : ', test);
+
         let testIfId = test.indexOf(response.id) === -1;
-        console.log('test numero 2', testIfId);
 
         if (testIfId){
           mesSeries.push({
@@ -206,8 +205,6 @@ $(document).ready(() => {
     }
     carouselCollection();
   }
-
-  // TODO faire le détail d'une seule série !
   
   // fonction qui va m'afficher le détail d'une série enregistrée dans ma collection
   function detailsFromCollection() {
@@ -242,7 +239,12 @@ $(document).ready(() => {
       </svg>
     </div>
     <div class="wrapper-left">
-      <div><img src="${imgBaseUrl}${mesSeries[idFromStorage].poster}" ></div>
+      <div>
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+          <path fill="#fff" d="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
+        </svg>
+        <img src="${imgBaseUrl}${mesSeries[idFromStorage].poster}" >
+      </div>
     </div>
     <div class="wrapper wrapper-right">
       <p>${mesSeries[idFromStorage].nom}</p>
@@ -348,14 +350,11 @@ $(document).ready(() => {
     
   }
 
-
   function closeDetailCollection() {
     $('div.close').on('click', () => {
       $('div.collection-details').removeClass('open');
     });
   }
-
-
 
   // fonction pour créer le carousel avec slick-slide
   // que j'appelle dans la fonction creerElementsAuClick();

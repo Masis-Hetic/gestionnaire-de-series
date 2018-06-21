@@ -22,7 +22,7 @@ ul{
 }
 
 body{
-    background: #273345;
+    background: #1e2835;
     height: 100vh;
     overflow: hidden;
 }
@@ -44,22 +44,31 @@ div.form form{
 }
 div.form div.wrapper{
     display: inline-block;
+    width: 80%;
+    margin-right: 20px;
+    position: relative;
 }
 div.form div.wrapper input{
     display: block;
     -webkit-appearance: none;
-    line-height: 30px;
+    line-height: 40px;
     width: 100%;
-}
-div.form div.wrapper:nth-of-type(1){
-    width: 60%;
-    margin-right: 20px;
-}
-div.form div.wrapper:nth-of-type(1) input{
     padding-left: 10px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
 }
-div.form div.wrapper:nth-of-type(2) input{
-    padding: 1px 20px;
+div.form div.wrapper input:focus{
+    box-shadow: 0 0 1px 1px #fff;
+}
+div.form div.wrapper svg{
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
 }
 
 
@@ -92,11 +101,12 @@ div.collection-details{
     position: absolute;
     top: -100%;
     left: 0;
-    background: #8b98a4;
+    background: #273345;
     font-family: sans-serif;
     color: #fff;
     font-size: 18px;
     transition: 0.5s;
+    box-shadow: 0 0 5px 2px #000000;
 }
 div.collection-details.open{
     top: 0;
@@ -107,14 +117,36 @@ div.collection-details div.wrapper-right{
     height: 100%;
     padding: 10px 30px;
 }
-div.collection-details div.wrapper-left div{
-    width: 100%;
-    height: 100%;
+div.collection-details div.wrapper-left{
     position: relative;
+}
+div.collection-details div.wrapper-left svg{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: 0.5s;
+    top: -24px;
+    right: -24px;
+    cursor: pointer;
+}
+div.collection-details div.wrapper-left:hover svg{
+    opacity: 1;
+    transition: 0.5s;
+}
+div.collection-details div.wrapper-left div{
+    width: 300px;
+    height: 450px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 div.collection-details div.wrapper-left div img{
     display: block;
     position: absolute;
+    width: 100%;
+    height: 100%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -133,9 +165,9 @@ div.collection-details div.wrapper>p{
 div.collection-details div.wrapper div.synopsys{
     text-align: center;
     width: 80%;
-    margin: 80px auto;
+    margin: 60px auto 80px;
     line-height: 1.5;
-    max-height: 30%;
+    max-height: 40%;
     overflow-y: scroll;
 }
 div.collection-details div.wrapper div.synopsys p:nth-of-type(1){
@@ -171,7 +203,7 @@ div.collection-details span.nombre-vu{
     margin: 0 10px;;
 }
 div.collection-details div.progress-bar{
-    width: 50%;
+    width: 60%;
     height: 25px;
     margin: 30px auto;
     border-radius: 5px;
@@ -180,15 +212,16 @@ div.collection-details div.progress-bar{
 div.collection-details div.progress-bar div{
     width: 0%;
     height: 100%;
-    background: blue;
+    background: #4d9eeb;
     border-radius: 5px;
     transition: 0.5s;
+    box-shadow: 0 0 2px 0px #000;
 }
 div.collection-details div.close {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: #273345;
+    background: #1e2835;
     border-radius: 50px;
     width: 30px;
     height: 30px;
@@ -202,8 +235,9 @@ div.collection-details div.close {
     width: 185px;
     cursor: pointer;
 }
-
-
+/* .slick-slide img:hover{
+    
+} */
 
 /* div.affiche-details */
 
@@ -217,8 +251,9 @@ div.affiche-details.close{
     z-index: 3;
 }
 div.affiche-details{
+    box-shadow: 0 0 5px 2px #000000;
     position: absolute;
-    background: #8b98a4;
+    background: #273345;
     transition: 0.5s;
     left: 0;
     width: 70vw;
@@ -230,6 +265,7 @@ div.affiche-details div{
     padding-top: 30px;
     color: #fff;
     font-family: sans-serif;
+    height: inherit;
 }
 div.affiche-details div.close{
     position: absolute;
@@ -238,7 +274,7 @@ div.affiche-details div.close{
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    background: #273345;
+    background: #1e2835;
     cursor: pointer;
 }
 div.close svg{
@@ -252,7 +288,7 @@ div.close svg{
 }
 div.affiche-details div img{
     display: block;
-    width: 300px;
+    width: 250px;
 
 }
 div.affiche-details div>span{
@@ -271,8 +307,13 @@ div.affiche-details div:nth-of-type(1) p:nth-of-type(2){
 div.affiche-details div:nth-of-type(1) p:nth-of-type(3){
     font-size: 18px;
     width: 80%;
-    margin: 0 auto;
+    margin: 15px auto 0;
     line-height: 2;
+    max-height: 25%;
+    overflow-y: scroll;
+    box-shadow: 0 0 5px 3px #1e2835;
+    padding: 10px;
+    border-radius: 6px;
 }
 div.affiche-details div.wrapper{
     width: 20%;
@@ -289,11 +330,13 @@ div.affiche-details div:nth-of-type(1) div.wrapper p span:nth-of-type(1){
 }
 div.affiche-details button{
     display: table;
-    margin: 0 auto;
+    margin: 25px auto 0;
     border: none;
-    background: #273345;
+    background: #1e2835;
     color: #fff;
-    padding: 10px 15px;
+    padding: 15px 25px;
     font-size: 16px;
     cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 7px;
 }
