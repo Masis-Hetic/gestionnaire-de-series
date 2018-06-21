@@ -140,7 +140,7 @@ $(document).ready(() => {
           id: response.id,
           poster: response.poster_path,
           overview: response.overview,
-          nbepisodesvu: ''
+          nbepisodesvu: '0'
         });
         localStorage.setItem('mes-series', JSON.stringify(mesSeries));
       } else {
@@ -150,8 +150,9 @@ $(document).ready(() => {
         for (let i = 0; i < tabStorage.length; i += 1) {
           test.push(tabStorage[i].id);
         }
-
+        console.log('test id is : ', test);
         let testIfId = test.indexOf(response.id) === -1;
+        console.log('test numero 2', testIfId);
 
         if (testIfId){
           mesSeries.push({
@@ -161,7 +162,7 @@ $(document).ready(() => {
             id: response.id,
             poster: response.poster_path,
             overview: response.overview,
-            nbepisodesvu: ''
+            nbepisodesvu: '0'
           });
 
           localStorage.setItem('mes-series', JSON.stringify(mesSeries));
@@ -221,10 +222,12 @@ $(document).ready(() => {
       for (let i = 0; i < mesSeries.length; i += 1) {
         tab.push(parseInt(mesSeries[i].id));
       }
-
+  
       let idFromStorage = tab.indexOf(id);
+
       detailCollectionFromStorage(idFromStorage);
       closeDetailCollection();
+      progressBar(id);
     });
   }
   detailsFromCollection();
@@ -249,7 +252,9 @@ $(document).ready(() => {
       </div>
       <div class="episodes">
         <p>
-          <span>Épisodes vus : <span class="nombre-vu">0</span> sur : ${mesSeries[idFromStorage].episodes}</span>
+          <span>Épisodes vus : <span class="nombre-vu">${mesSeries[idFromStorage].nbepisodesvu}</span> sur : 
+            <span class="total">${mesSeries[idFromStorage].episodes}</span>
+          </span>
           <span class="plus">
               <svg viewBox="0 0 24 24" data-id="${mesSeries[idFromStorage].id}">
                 <path fill="#fff" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" data-id="${mesSeries[idFromStorage].id}"/>
@@ -269,26 +274,80 @@ $(document).ready(() => {
     `);
   }
 
+  function episodeMoins() {
+    $(document).on('click', 'span.minus svg', (e) => {
+      let id = e.target;
+      id = $(id).attr('data-id');
+      id = parseInt(id);
+      let tab = [];
+
+      for (let i = 0; i < mesSeries.length; i += 1) {
+        tab.push(parseInt(mesSeries[i].id));
+      }
+
+      let indexFromStorage = tab.indexOf(id);
+      let episodes = parseInt($('span.nombre-vu').html());
+
+      if (episodes === 0) {
+        episodes = 0;
+      } else {
+        episodes = episodes - 1;
+        mesSeries[indexFromStorage].nbepisodesvu = episodes;
+        localStorage.setItem('mes-series', JSON.stringify(mesSeries));
+      }
+      
+      $('span.nombre-vu').html(episodes);
+      progressBar(id);
+    });
+  }
+  episodeMoins();
+
   function episodePlus() {
     $(document).on('click', 'span.plus svg', (e) => {
-      getIdOnClick(e);
+      let id = e.target;
+      id = $(id).attr('data-id');
+      id = parseInt(id);
+      let tab = [];
+      
+      for (let i = 0; i < mesSeries.length; i += 1) {
+        tab.push(parseInt(mesSeries[i].id));
+      }
+      
+      let indexFromStorage = tab.indexOf(id);  
+      let episodeTotal = parseInt(mesSeries[indexFromStorage].episodes);
+      let episodes = parseInt($('span.nombre-vu').html());
+      
+      if (episodes === episodeTotal) {
+        episodes = episodeTotal;
+      } else {
+        episodes = episodes + 1;
+        mesSeries[indexFromStorage].nbepisodesvu = episodes;
+        localStorage.setItem('mes-series', JSON.stringify(mesSeries));
+      }
+      
+      $('span.nombre-vu').html(episodes);
+      progressBar(id);
     });
   }
   episodePlus();
 
-  function getIdOnClick(e) {
-    let id = e.target;
-    id = $(id).attr('data-id');
-    id = parseInt(id);
+  function progressBar(id) {
     let tab = [];
-
     for (let i = 0; i < mesSeries.length; i += 1) {
       tab.push(parseInt(mesSeries[i].id));
     }
 
     let indexFromStorage = tab.indexOf(id);
-    console.log('console log de id : ', indexFromStorage);
+    
+    let progressBar = $('div.progress-bar div');
+    let episodeTotal = mesSeries[indexFromStorage].episodes;
+    let episodes = mesSeries[indexFromStorage].nbepisodesvu;
+    let progressPourcent = (episodes / episodeTotal) * 100;
+
+    $(progressBar).css('width', progressPourcent + '%');
+    
   }
+
 
   function closeDetailCollection() {
     $('div.close').on('click', () => {

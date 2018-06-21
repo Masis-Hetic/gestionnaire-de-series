@@ -178,7 +178,7 @@ div.collection-details div.progress-bar{
     background: #fff;
 }
 div.collection-details div.progress-bar div{
-    width: 50%;
+    width: 0%;
     height: 100%;
     background: blue;
     border-radius: 5px;
