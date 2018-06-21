@@ -214,5 +214,7 @@ $RECYCLE.BIN/
 
 # ignore test.html
 test.html
+#ignore video
+video-atelier
 
 # End of https://www.gitignore.io/api/linux,macos,windows,jetbrains,sublimetext,jetbrains+all,visualstudiocode
