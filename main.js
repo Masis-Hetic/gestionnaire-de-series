@@ -240,8 +240,8 @@ $(document).ready(() => {
     </div>
     <div class="wrapper-left">
       <div>
-        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-          <path fill="#fff" d="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
+        <svg data-id="${mesSeries[idFromStorage].id}" class="delete" style="width:24px;height:24px" viewBox="0 0 24 24">
+          <path data-id="${mesSeries[idFromStorage].id}" fill="#fff" d="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
         </svg>
         <img src="${imgBaseUrl}${mesSeries[idFromStorage].poster}" >
       </div>
@@ -349,6 +349,27 @@ $(document).ready(() => {
     $(progressBar).css('width', progressPourcent + '%');
     
   }
+
+  function deleteSerie() {
+    $(document).on('click', '.delete', (e) => {
+      let id = e.target;
+      id = $(id).attr('data-id');
+      id = parseInt(id);
+      let tab = [];
+
+      for (let i = 0; i < mesSeries.length; i += 1) {
+        tab.push(parseInt(mesSeries[i].id));
+      }
+      
+      let indexFromStorage = tab.indexOf(id); 
+      
+      mesSeries.splice(indexFromStorage, 1);
+      localStorage.setItem('mes-series', JSON.stringify(mesSeries));
+      getValuesFromStorage();
+      $('div.collection-details').removeClass('open');
+    });
+  }
+  deleteSerie();
 
   function closeDetailCollection() {
     $('div.close').on('click', () => {

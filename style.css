@@ -1,3 +1,32 @@
+@font-face{
+    font-family: "Dubai-Bold";
+    src: url('fonts/DubaiW23-Bold.eot');
+    src: url('fonts/DubaiW23-Bold.ttf');
+    src: url('fonts/DubaiW23-Bold.woff');
+    src: url('fonts/DubaiW23-Bold.woff2');
+}
+@font-face{
+    font-family: "Dubai-Light";
+    src: url('fonts/DubaiW23-Light.eot');
+    src: url('fonts/DubaiW23-Light.ttf');
+    src: url('fonts/DubaiW23-Light.woff');
+    src: url('fonts/DubaiW23-Light.woff2');
+}
+@font-face{
+    font-family: "Dubai-Medium";
+    src: url('fonts/DubaiW23-Medium.eot');
+    src: url('fonts/DubaiW23-Medium.ttf');
+    src: url('fonts/DubaiW23-Medium.woff');
+    src: url('fonts/DubaiW23-Medium.woff2');
+}
+@font-face{
+    font-family: "Dubai-Regular";
+    src: url('fonts/DubaiW23-Regular.eot');
+    src: url('fonts/DubaiW23-Regular.ttf');
+    src: url('fonts/DubaiW23-Regular.woff');
+    src: url('fonts/DubaiW23-Regular.woff2');
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -12,7 +41,6 @@
   content: " ";
   display: table;
 }
-
 .clearfix:after {
   clear: both;
 }
@@ -25,6 +53,7 @@ body{
     background: #1e2835;
     height: 100vh;
     overflow: hidden;
+    font-family: "Dubai-Regular", sans-serif;
 }
 header{
     height: 100px;
@@ -60,6 +89,9 @@ div.form div.wrapper input{
 }
 div.form div.wrapper input:focus{
     box-shadow: 0 0 1px 1px #fff;
+}
+div.form div.wrapper input::-webkit-input-placeholder{
+    font-size: 14px;
 }
 div.form div.wrapper svg{
     display: block;
@@ -233,6 +265,7 @@ div.collection-details div.close {
     display: block;
     margin: 0 auto;
     width: 185px;
+    height: 280px;
     cursor: pointer;
 }
 /* .slick-slide img:hover{
